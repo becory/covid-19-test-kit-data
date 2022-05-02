@@ -43,6 +43,4 @@ jobs:
         git config --global user.name github-actions-bot
         git add .
         git commit -m "update data" -a
-      env: | 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CI: false
+        git push
