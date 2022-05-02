@@ -34,6 +34,6 @@ def request_all_data():
                     row_dict[key] = row[key]
         new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=csv_data.columns)], ignore_index=True)
     new_data.to_csv('dist/all.csv', index=False)
-    print(check_length+"間藥局沒有更新資料", non_update)
+    print(str(check_length)+"間藥局沒有更新資料", non_update)
 if __name__ == '__main__':
     request_all_data()
