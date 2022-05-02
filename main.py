@@ -24,7 +24,7 @@ def request_all_data():
                     row_dict[key] = row["醫事機構名稱_x"] + "（今日資料未更新）"
                     is_check = True
                     check_length += 1
-                    non_update.push(row["醫事機構名稱_x"])
+                    non_update.append(row["醫事機構名稱_x"])
                 else:
                     row_dict[key] = row[key+"_x"]
             else:
