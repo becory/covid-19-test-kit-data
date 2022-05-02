@@ -37,10 +37,9 @@ jobs:
     - name: Run
       run: |
         python main.py
-    - name: push commit
-      run: |
-        git config --global user.email support+actions@github.com
-        git config --global user.name github-actions-bot
-        git add .
-        git commit -m "update data" -a
-        git push
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        # github will auto-generate a token for this job and use it 
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
