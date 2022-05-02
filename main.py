@@ -11,6 +11,8 @@ def request_all_data():
     first = pandas.read_csv("first.csv")
     merge_table = first.merge(csv_data, how='outer', on='醫事機構代碼')
     new_data = pandas.DataFrame(columns=csv_data.columns)
+    check_length = 0
+    non_update = []
     for index, row in merge_table.iterrows():
         row_dict = {}
         is_check = False
@@ -19,9 +21,10 @@ def request_all_data():
                 if pandas.notnull(row[key+"_y"]):
                     row_dict[key] = row[key+"_y"]
                 elif key == "醫事機構名稱":
-                    print(row)
                     row_dict[key] = row["醫事機構名稱_x"] + "（今日資料未更新）"
                     is_check = True
+                    check_length += 1
+                    non_update.push(row["醫事機構名稱_x"])
                 else:
                     row_dict[key] = row[key+"_x"]
             else:
@@ -31,6 +34,6 @@ def request_all_data():
                     row_dict[key] = row[key]
         new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=csv_data.columns)], ignore_index=True)
     new_data.to_csv('dist/all.csv', index=False)
-
+    print(check_length+"間藥局沒有更新資料", non_update)
 if __name__ == '__main__':
     request_all_data()
