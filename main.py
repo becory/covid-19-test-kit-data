@@ -20,14 +20,13 @@ def request_all_data():
         os.mkdir(str(path) + '/dist')
     first = pandas.read_csv("https://raw.githubusercontent.com/becory/covid-19-test-kit-data/gh-pages/all.csv")
     merge_table = first.merge(csv_data, how='outer', on='醫事機構代碼')
-    new_columns = [*csv_data.columns[:-1], "開賣", "備註"]
-    new_data = pandas.DataFrame(columns=new_columns)
+    new_data = pandas.DataFrame(columns=first.columns)
     check_length = 0
     non_update = []
     for index, row in merge_table.iterrows():
         row_dict = {}
         is_check = False
-        for key in new_columns:
+        for key in first.columns:
             if key+"_x" in row and key+"_y" in row:
                 if pandas.notnull(row[key+"_y"]):
                     row_dict[key] = row[key+"_y"]
@@ -46,9 +45,11 @@ def request_all_data():
                         row_dict["開賣"] = int(is_check is False)
                 else:
                     row_dict[key] = row[key]
-        new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=new_columns)], ignore_index=True)
+        new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=first.columns)], ignore_index=True)
     new_data.to_csv('dist/all.csv', index=False)
-    print(str(check_length)+"間藥局沒有更新資料", non_update)
+    status = pandas.DataFrame([{"update_time": get_datetime.strftime('%Y/%m/%d %H:%M:%S')}])
+    status.to_csv('dist/status.csv', index=False)
+    print(str(check_length)+"間藥局沒有更新資料")
 
 
 if __name__ == '__main__':

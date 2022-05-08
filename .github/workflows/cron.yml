@@ -5,8 +5,8 @@ name: cron job
 
 on:
   schedule:
-    - cron:  '15 23 * * *'
-
+    - cron: '*/5 23,0,1-15 * * *'
+    - cron: '*/60 16-23 * * *'
 permissions:
   contents: read
 
