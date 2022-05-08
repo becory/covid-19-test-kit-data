@@ -41,6 +41,15 @@ jobs:
       - name: Run
         run: |
           python main.py
+      - name: delete and mv
+        run: |
+          rm -f requirements.txt
+          rm -f main.py
+          cd dist
+          mv * ../
+          cd ../
+          rm -r dist
+          rm -r .github
       - name: Deploy
         uses: EndBug/add-and-commit@v9
         with:
