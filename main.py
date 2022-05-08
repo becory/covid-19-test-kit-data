@@ -3,6 +3,14 @@ import os
 import pathlib
 import datetime
 
+
+def time_in_range(start, end, x):
+    if start <= end:
+        return start <= x <= end
+    else:
+        return start <= x or x <= end
+
+
 def request_all_data():
     csv_data = pandas.read_csv("https://data.nhi.gov.tw/resource/Nhi_Fst/Fstdata.csv").drop(
         ["廠牌項目", "快篩試劑截至目前結餘存貨數量", "來源資料時間"], axis=1)
@@ -10,15 +18,16 @@ def request_all_data():
     path = pathlib.Path()
     if not os.path.isdir(str(path) + '/dist'):
         os.mkdir(str(path) + '/dist')
-    first = pandas.read_csv("first.csv")
+    first = pandas.read_csv("https://raw.githubusercontent.com/becory/covid-19-test-kit-data/gh-pages/all.csv")
     merge_table = first.merge(csv_data, how='outer', on='醫事機構代碼')
-    new_data = pandas.DataFrame(columns=csv_data.columns)
+    new_columns = [*csv_data.columns[:-1], "開賣", "備註"]
+    new_data = pandas.DataFrame(columns=new_columns)
     check_length = 0
     non_update = []
     for index, row in merge_table.iterrows():
         row_dict = {}
         is_check = False
-        for key in csv_data.columns:
+        for key in new_columns:
             if key+"_x" in row and key+"_y" in row:
                 if pandas.notnull(row[key+"_y"]):
                     row_dict[key] = row[key+"_y"]
@@ -30,12 +39,17 @@ def request_all_data():
                 else:
                     row_dict[key] = row[key+"_x"]
             else:
-                if is_check is True and key == "備註":
-                    row_dict[key] =  "（截至"+get_datetime.strftime('%m/%d %H:%M:%S')+"，資料未更新）"
+                if key == "開賣":
+                    if time_in_range(datetime.time(23, 0, 0), datetime.time(6, 0, 0), get_datetime.time()):
+                        row_dict["開賣"] = 0
+                    elif row_dict["開賣"] != 1:
+                        row_dict["開賣"] = int(is_check is False)
                 else:
                     row_dict[key] = row[key]
-        new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=csv_data.columns)], ignore_index=True)
+        new_data = pandas.concat([new_data, pandas.DataFrame([row_dict.values()], columns=new_columns)], ignore_index=True)
     new_data.to_csv('dist/all.csv', index=False)
     print(str(check_length)+"間藥局沒有更新資料", non_update)
+
+
 if __name__ == '__main__':
     request_all_data()
