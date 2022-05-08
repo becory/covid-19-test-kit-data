@@ -55,4 +55,6 @@ def request_all_data():
 
 
 if __name__ == '__main__':
+    get_datetime = datetime.datetime.now()+datetime.timedelta(hours=8)
+    print(time_in_range(datetime.time(0, 0, 0), datetime.time(6, 0, 0), get_datetime.time()))
     request_all_data()
