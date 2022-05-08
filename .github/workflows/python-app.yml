@@ -48,7 +48,5 @@ jobs:
         # github will auto-generate a token for this job and use it 
         github_token: ${{ secrets.SUPER_KEY }}
         add: './dist'
-        author_name: github-actions-bot
-        author_email: support+actions@github.com
         commit: 'update data'
         new_branch: 'data'
