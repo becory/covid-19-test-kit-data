@@ -39,7 +39,7 @@ def request_all_data():
                     row_dict[key] = row[key+"_x"]
             else:
                 if key == "開賣":
-                    if time_in_range(datetime.time(23, 0, 0), datetime.time(6, 0, 0), get_datetime.time()):
+                    if time_in_range(datetime.time(0, 0, 0), datetime.time(6, 0, 0), get_datetime.time()):
                         row_dict["開賣"] = 0
                     elif row["開賣"] == 0:
                         row_dict["開賣"] = int(is_check is False)
