@@ -45,9 +45,13 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           # github will auto-generate a token for this job and use it
-          github_token: ${{ secrets.SUPER_KEY }}
           add: "./dist"
           author_name: github-actions-bot
           author_email: support+actions@github.com
           commit: "update data"
           new_branch: "data"
+          push: false
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.SUPER_KEY }}
+          branch: ${{ github.ref }}
