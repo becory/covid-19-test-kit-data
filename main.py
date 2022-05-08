@@ -41,7 +41,7 @@ def request_all_data():
                 if key == "開賣":
                     if time_in_range(datetime.time(23, 0, 0), datetime.time(6, 0, 0), get_datetime.time()):
                         row_dict["開賣"] = 0
-                    elif row_dict["開賣"] != 1:
+                    else:
                         row_dict["開賣"] = int(is_check is False)
                 else:
                     row_dict[key] = row[key]
