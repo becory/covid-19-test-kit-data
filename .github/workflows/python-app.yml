@@ -59,6 +59,6 @@ jobs:
           push: false
       - uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.SUPER_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "data"
           force: true
