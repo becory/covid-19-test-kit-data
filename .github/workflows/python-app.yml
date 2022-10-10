@@ -53,6 +53,6 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           # github will auto-generate a token for this job and use it
-          author_name: "github-actions-bot"
-          author_email: "support+actions@github.com"
+          committer_name: "github-actions-bot"
+          committer_email: "support+actions@github.com"
           new_branch: "data"
