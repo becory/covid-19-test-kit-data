@@ -53,4 +53,9 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           new_branch: "data"
-          push: "-u -f"
+          push: "-u"
+      - name: Deploy
+        uses: EndBug/add-and-commit@v9
+        with:
+          new_branch: "data"
+          push: "-f"
