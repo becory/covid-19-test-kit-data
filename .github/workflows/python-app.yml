@@ -53,9 +53,4 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           new_branch: "data"
-          push: "-u"
-      - name: Deploy
-        uses: EndBug/add-and-commit@v9
-        with:
-          new_branch: "data"
-          push: "-f"
+          push: "origin data --set-upstream --force"
