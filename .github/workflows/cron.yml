@@ -9,7 +9,7 @@ on:
     - cron: '*/60 16-22 * * *'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
